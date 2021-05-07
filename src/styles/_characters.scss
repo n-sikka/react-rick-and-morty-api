@@ -1,0 +1,88 @@
+.CharacterList {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 1rem;
+
+    @media (min-width: 735px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1200px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.CharacterItem {
+    position: relative;
+    background-color: var(--white);
+    margin: 0.4rem;
+    cursor: pointer;
+    transition: all ease-in 0.2s;
+
+    &:hover,
+    &:active {
+        transform: scale(1.04);
+        box-shadow: 0px 0px 10px 1px var(--shadow-color);
+    }
+
+    img {
+        width: 100%;
+        min-width: 224px;
+        min-height: 224px;
+        background-color: var(--grey);
+        height: auto;
+    }
+
+    small {
+        display: block;
+        margin-bottom: 0.4rem;
+    }
+
+    &__info {
+        padding: 0.8rem 1.2rem;
+        text-align: left;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    &__name {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        margin: 0;
+        margin-bottom: 0.8rem;
+    }
+
+    &__bio {
+        margin: 0;
+        margin-bottom: 0.8rem;
+    }
+
+    &__status {
+        font-size: 1.2rem;
+        min-width: 50px;
+        position: absolute;
+        left: 0.4rem;
+        top: 0.4rem;
+        padding: 0.4rem 0.8rem;
+        text-transform: uppercase;
+        border-radius: 10px;
+        background-color: var(--white);
+        box-shadow: 2px 2px 11px 0px var(--shadow-color);
+
+        &.is-alive {
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        &.is-dead {
+            color: var(--danger);
+            border: 2px solid var(--danger);
+        }
+        &.is-unknown {
+            color: var(--grey);
+            border: 2px solid var(--grey);
+        }
+    }
+}

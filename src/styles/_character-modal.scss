@@ -1,0 +1,57 @@
+.CharacterDetailModal {
+    position: fixed;
+    background-color: var(--accent);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+    opacity: 1;
+    box-shadow: 1px 1px 100px 100px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+
+    @media (min-width: 735px) {
+        margin: 5rem;
+    }
+
+    .Content {
+        background-color: var(--white);
+        max-width: 1000px;
+        margin: 5rem auto;
+        padding: 4rem;
+
+        &__body {
+            width: 100%;
+
+            img {
+                min-width: 300px;
+                min-height: 300px;
+                background-color: var(--grey);
+            }
+        }
+
+        .Character__info {
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+
+            p {
+                margin: 0;
+                margin-bottom: 0.8rem;
+            }
+
+            .CharacterItem__name {
+                font-size: 3.4rem;
+                margin-bottom: 1.6rem;
+            }
+        }
+    }
+}
+
+.modal-open {
+    overflow: hidden;
+}

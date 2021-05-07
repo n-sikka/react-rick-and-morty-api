@@ -1,0 +1,32 @@
+.title {
+    font-size: 3.4rem;
+    color: var(--text-color-primary);
+    margin-bottom: 1.6rem;
+}
+
+.subtitle {
+    font-size: 2.4rem;
+    color: var(--text-color-secondary);
+}
+
+.Button {
+    min-width: 150px;
+    background-color: var(--white);
+    text-transform: uppercase;
+    border: 0;
+    box-shadow: none;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    font-weight: bold;
+    border: 1px solid var(--grey);
+
+    &:hover,
+    &:focus {
+        background-color: var(--grey);
+    }
+
+    &.is-block {
+        display: block;
+        width: 100%;
+    }
+}

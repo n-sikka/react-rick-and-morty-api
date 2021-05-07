@@ -1,0 +1,48 @@
+:root {
+    font-size: 62.5%;
+
+    --white: #ffffff;
+    --primary: #62a4ab;
+    --secondary: #f9bf1e;
+    --shadow-color: #44787d;
+    --accent: #97ce4c;
+    --grey: #dcdbdb;
+    --text-color-primary: #282828;
+    --text-color-secondary: #08282b;
+    --danger: rgb(240, 97, 64);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: var(--primary);
+    color: var(--text-color-primary);
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 1rem;
+    font-size: 1.6rem;
+}
+
+.App {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.NotFound {
+    img {
+        border-radius: 5px;
+        box-shadow: 2px 3px 19px 2px var(--shadow-color);
+    }
+}
+
+@import './utils';
+@import './characters';
+@import './pagination';
+@import './search-bar';
+@import './character-modal';
