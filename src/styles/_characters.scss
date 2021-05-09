@@ -1,88 +1,111 @@
-.CharacterList {
-    max-width: 1400px;
-    margin: 0 auto;
+@use './mixins/screen-gte' as screen-gte;
+
+// The design decision here is that the image should be a square hence one var for height and width
+$character-img-size: 224px;
+
+// Abstract/invisible class
+%CharacterGrid {
     display: grid;
     grid-gap: 1rem;
 
-    @media (min-width: 735px) {
+    @include screen-gte(735px) {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (min-width: 1200px) {
+    @include screen-gte(1200px) {
         grid-template-columns: repeat(5, 1fr);
     }
 }
 
-.CharacterItem {
-    position: relative;
-    background-color: var(--white);
-    margin: 0.4rem;
-    cursor: pointer;
-    transition: all ease-in 0.2s;
+// Character list containing CharacterItems inside
+.CharacterList {
+    margin: 0 auto;
+    @extend %CharacterGrid;
 
-    &:hover,
-    &:active {
-        transform: scale(1.04);
-        box-shadow: 0px 0px 10px 1px var(--shadow-color);
-    }
+    // Individual Character Items
+    &__item {
+        margin: 0.4rem;
+        cursor: pointer;
+        position: relative;
+        transition: all ease-in 0.2s;
+        background-color: var(--contrast-color);
 
-    img {
-        width: 100%;
-        min-width: 224px;
-        min-height: 224px;
-        background-color: var(--grey);
-        height: auto;
-    }
+        &:hover,
+        &:active {
+            // To make the card slightly 'pop out" on hover to provide some UI feedback
+            transform: scale(1.04);
+            box-shadow: 0px 0px 8px 2px var(--shadow-color);
 
-    small {
-        display: block;
-        margin-bottom: 0.4rem;
+            img {
+                filter: grayscale(0);
+            }
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            filter: grayscale(60%);
+            background-color: var(--grey);
+            min-width: $character-img-size;
+            min-height: $character-img-size;
+            transition: filter ease-in 0.2s;
+        }
+
+        small {
+            display: block;
+            margin-bottom: 0.4rem;
+        }
     }
 
     &__info {
-        padding: 0.8rem 1.2rem;
         text-align: left;
+        padding: 0.8rem 1.2rem;
 
         p {
             margin: 0;
         }
     }
 
-    &__name {
-        font-size: 1.4rem;
-        text-transform: uppercase;
-        margin: 0;
-        margin-bottom: 0.8rem;
-    }
-
-    &__bio {
-        margin: 0;
-        margin-bottom: 0.8rem;
-    }
-
-    &__status {
-        font-size: 1.2rem;
-        min-width: 50px;
-        position: absolute;
-        left: 0.4rem;
-        top: 0.4rem;
-        padding: 0.4rem 0.8rem;
-        text-transform: uppercase;
-        border-radius: 10px;
-        background-color: var(--white);
-        box-shadow: 2px 2px 11px 0px var(--shadow-color);
-
-        &.is-alive {
-            color: var(--accent);
-            border: 2px solid var(--accent);
+    // The details of the character
+    .Character {
+        &__name {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            margin: 0;
+            margin-bottom: 0.8rem;
         }
-        &.is-dead {
-            color: var(--danger);
-            border: 2px solid var(--danger);
+
+        &__bio {
+            margin: 0;
+            margin-bottom: 0.8rem;
         }
-        &.is-unknown {
-            color: var(--grey);
-            border: 2px solid var(--grey);
+
+        &__status {
+            z-index: 1;
+            top: 0.4rem;
+            left: 0.4rem;
+            min-width: 48px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            position: absolute;
+            padding: 0.4rem 0.8rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 1px 1px 4px 0px var(--shadow-color);
+
+            &.is-alive {
+                background-color: var(--accent);
+                border: 2px solid var(--accent);
+            }
+            &.is-dead {
+                color: var(--contrast-color);
+                background-color: var(--danger);
+                border: 2px solid var(--danger);
+            }
+            &.is-unknown {
+                background-color: var(--grey);
+                border: 2px solid var(--grey);
+            }
         }
     }
 }

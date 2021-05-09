@@ -1,3 +1,8 @@
+/**
+ * Schema for the Character
+ * @see https://rickandmortyapi.com/documentation/#character-schema
+ */
+
 type CharacterLocation = {
     name: string;
     url: string;

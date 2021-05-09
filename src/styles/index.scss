@@ -1,7 +1,7 @@
 :root {
     font-size: 62.5%;
 
-    --white: #ffffff;
+    --contrast-color: #ffffff;
     --primary: #62a4ab;
     --secondary: #f9bf1e;
     --shadow-color: #44787d;
@@ -9,40 +9,47 @@
     --grey: #dcdbdb;
     --text-color-primary: #282828;
     --text-color-secondary: #08282b;
-    --danger: rgb(240, 97, 64);
+    --danger: #f06140;
+
+    --app-width: 1200px;
 }
 
-* {
-    box-sizing: border-box;
-}
-
-html {
-    background-color: var(--primary);
-    color: var(--text-color-primary);
-    text-align: center;
-    font-family: 'Roboto', sans-serif;
-}
-
-body {
-    margin: 0;
-    padding: 1rem;
-    font-size: 1.6rem;
-}
-
+// Global/root styles for the app
 .App {
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: var(--app-width);
 }
 
 .NotFound {
     img {
-        border-radius: 5px;
+        border-radius: 4px;
         box-shadow: 2px 3px 19px 2px var(--shadow-color);
     }
 }
 
+/*
+    NOTE: This is just an example of how we can leverage CSS variables to add different modes to our app super quickly!
+    The values are of course not optimized (a designer would be ideally the one selecting different values
+*/
+.Mode--dark {
+    --primary: #282828;
+    --text-color-primary: #eeeeee;
+    --text-color-secondary: #d6d6d6;
+    --contrast-color: #62a4ab;
+    --accent: #6d9731;
+    --danger: #f59883;
+    --shadow-color: #313030;
+}
+
+.ModeSelector {
+    margin: 2.4rem auto;
+}
+
+@import './base';
+@import './mixins/all';
 @import './utils';
 @import './characters';
 @import './pagination';
 @import './search-bar';
 @import './character-modal';
+@import './filter-bar';

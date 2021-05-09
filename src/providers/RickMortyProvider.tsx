@@ -1,86 +1,113 @@
 import React, { useState, useEffect, useContext } from 'react';
-import type { Character } from '../types/Character.type';
-
-export type CharacterResponseInfo = {
-    count: number;
-    pages: number;
-    next: string | null;
-    prev: string | null;
-};
-
-type CharacterResponse = {
-    info: CharacterResponseInfo;
-    results: Array<Character>;
-};
-
-// provider context state
-type RickMortyContextState = CharacterResponse & {
-    fetchPage: (page: number) => void;
-    isLoading: boolean;
-    search: (name: string) => void;
-};
+import type { CharacterResponse } from '../contexts/RickMortyContext';
+import { InitData, RickMortyContext } from '../contexts/RickMortyContext';
 
 // create Context
 const BASE_URL = 'https://rickandmortyapi.com/api/character';
 
-// initial data state
-const InitData = {
-    info: {
-        count: 0,
-        pages: 0,
-        next: null,
-        prev: null,
-    },
-    results: [],
-    isLoading: true,
-    fetchPage: /* istanbul ignore next - unused default case */ () => {
-        throw new Error('Default case - this should not be used!');
-    },
-    search: /* istanbul ignore next - unused default case */ () => {
-        throw new Error('Default case - this should not be used!');
-    },
-};
-
-const RickMortyContext = React.createContext<RickMortyContextState>(InitData);
-
-// create Provider
+/**
+ * I'm creating a hook here to wrap the context and be used as any other react hook like useState or useEffect
+ * This component defines functions that the context requires and then provides those to the app
+ *
+ * The main app is wrapped with this provider to inject the context value from one point
+ * I am definitely misusing context here a little bit along with in some individual partial components but,
+ * I hope this showcases some skills of mine in react for the test purpose
+ *
+ */
 export const RickMortyProvider: React.FC = ({ children }) => {
     const [results, setResults] = useState<CharacterResponse['results']>([]);
     const [info, setInfo] = useState<CharacterResponse['info']>(InitData.info);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [query, setQuery] = useState(BASE_URL);
     const [searchTerm, setSearchTerm] = useState('');
+    const [statusFilter, setStatusFilter] = useState('');
+    const [genderFilter, setGenderFilter] = useState('');
 
-    // Call API for Promise and setResults
     useEffect(() => {
-        fetchData(BASE_URL);
-    }, []);
+        // Flag to keep track of mount status
+        // It's needed to avoid memory leaks in app
+        let unmounted = false;
 
-    const fetchData = async (query: string) => {
-        const response = await fetch(query);
+        // Call API for Promise and setResults
+        const fetchData = async () => {
+            const response = await Promise.resolve(fetch(query));
 
-        response
-            .json()
-            .then((res: CharacterResponse) => {
-                setResults(res.results);
-                setInfo(res.info);
-                setIsLoading(false);
-            })
-            .catch(() => setIsLoading(true));
-    };
+            const json = await response.json();
+
+            // if the component is unmounted then return
+            if (unmounted) {
+                return;
+            }
+
+            setResults(json.results);
+            setInfo(json.info);
+            setIsLoading(false);
+        };
+
+        fetchData();
+
+        // this is a clean up function for useEffect by setting the mount status flag to false if unmounted
+        return () => {
+            unmounted = true;
+        };
+    }, [query]);
 
     const fetchPage = (page: number) => {
         let query = `${BASE_URL}/?page=${page}`;
 
         if (searchTerm && searchTerm.length > 0) {
-            query = `${BASE_URL}/?page=${page}&name=${searchTerm}`;
+            query = `${query}&name=${searchTerm}`;
         }
-        fetchData(query);
+
+        if (statusFilter && statusFilter.length > 0) {
+            query = `${query}&status=${statusFilter}`;
+        }
+        if (genderFilter && genderFilter.length > 0) {
+            query = `${query}&gender=${genderFilter}`;
+        }
+
+        setQuery(query);
     };
 
     const search = (name: string) => {
         let query = `${BASE_URL}/?name=${name}`;
         setSearchTerm(name);
-        fetchData(query);
+
+        if (statusFilter && statusFilter.length > 0) {
+            query = `${query}&${statusFilter}`;
+        }
+        setQuery(query);
+    };
+
+    const filterByStatus = (filter: string) => {
+        let query = `${BASE_URL}/?status=${filter}`;
+        setStatusFilter(filter);
+
+        if (genderFilter && genderFilter.length > 0) {
+            query = `${query}&gender=${genderFilter}`;
+        }
+
+        if (searchTerm && searchTerm.length > 0) {
+            query = `${query}&name=${searchTerm}`;
+        }
+
+        setQuery(query);
+    };
+
+    const filterByGender = (filter: string) => {
+        let query = `${BASE_URL}/?gender=${filter}`;
+        setGenderFilter(filter);
+
+        if (statusFilter && statusFilter.length > 0) {
+            query = `${query}&status=${statusFilter}`;
+        }
+
+        if (searchTerm && searchTerm.length > 0) {
+            query = `${query}&name=${searchTerm}`;
+        }
+
+        setQuery(query);
     };
 
     return (
@@ -88,9 +115,11 @@ export const RickMortyProvider: React.FC = ({ children }) => {
             value={{
                 info,
                 results,
-                fetchPage,
                 isLoading,
+                fetchPage,
                 search,
+                filterByStatus,
+                filterByGender,
             }}
         >
             {children}

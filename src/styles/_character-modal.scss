@@ -1,27 +1,30 @@
+@use './mixins/screen-gte' as screen-gte;
+
 .CharacterDetailModal {
-    position: fixed;
-    background-color: var(--accent);
     top: 0;
-    bottom: 0;
-    right: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     margin: 0;
     opacity: 1;
-    box-shadow: 1px 1px 100px 100px var(--shadow-color);
+    z-index: 2;
     display: flex;
+    position: fixed;
+    border-radius: 5px;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    background-color: var(--accent);
+    box-shadow: 1px 1px 100px 100px var(--shadow-color);
 
-    @media (min-width: 735px) {
+    @include screen-gte(735px) {
         margin: 5rem;
     }
 
     .Content {
-        background-color: var(--white);
+        padding: 4rem;
         max-width: 1000px;
         margin: 5rem auto;
-        padding: 4rem;
+        background-color: var(--contrast-color);
 
         &__body {
             width: 100%;
@@ -34,10 +37,10 @@
         }
 
         .Character__info {
-            padding: 0.8rem 1.2rem;
             display: flex;
-            flex-direction: column;
             text-align: left;
+            flex-direction: column;
+            padding: 0.8rem 1.2rem;
 
             p {
                 margin: 0;
@@ -52,6 +55,9 @@
     }
 }
 
+// To disable body scroll when modal is open
+// more 'fancy' things can be done here but given the time pressure/nature of the implementation
+// I chose to not do it
 .modal-open {
     overflow: hidden;
 }

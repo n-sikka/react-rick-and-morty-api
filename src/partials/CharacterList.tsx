@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import type { Character } from '../types/Character.type';
-import { CharacterItem } from './Character';
-import { CharacterDetailsModal } from './CharacterModal';
+import { CharacterItem, CharacterDetailsModal } from './';
 
 interface ICharacterList extends React.HTMLAttributes<HTMLDivElement> {
     data: Character[];
 }
 
+/**
+ *
+ * @param data array of characters
+ */
 export const CharacterList: React.FC<ICharacterList> = ({ data }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCharacter, setSelectedCharacter] = useState<Character>();
@@ -25,12 +28,12 @@ export const CharacterList: React.FC<ICharacterList> = ({ data }) => {
     return (
         <>
             {data && data.length ? (
-                <div className="CharacterList">
+                <div className="CharacterList" title="character list">
                     {data.map((character) => (
                         <CharacterItem
                             character={character}
                             key={character.id}
-                            onModalOpen={showDetails}
+                            onShowDetails={showDetails}
                         />
                     ))}
                 </div>

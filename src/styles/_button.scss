@@ -1,0 +1,27 @@
+/*
+    NOTE: This is actually unneccessary as this is an app not a component library/design system.
+    But, to shwocase the difference in approach between 
+    smaller logical parts of a bigger app vs components that act like lego blocks I chose to add a Button here 
+*/
+
+.Button {
+    min-width: 152px;
+    background-color: var(--contrast-color);
+    text-transform: uppercase;
+    border: 0;
+    box-shadow: none;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    font-weight: bold;
+    border: 1px solid var(--grey);
+
+    &:hover,
+    &:focus {
+        background-color: var(--grey);
+    }
+
+    &.is-block {
+        display: block;
+        width: 100%;
+    }
+}

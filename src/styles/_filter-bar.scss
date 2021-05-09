@@ -1,0 +1,24 @@
+.FilterBar {
+    text-align: left;
+    border-radius: 4px;
+    margin-bottom: 1.6rem;
+    padding: 1.2rem 1.6rem;
+    border: 1px solid var(--contrast-color);
+    background-color: var(--contrast-color);
+
+    &__group {
+        // Styling the selector here directly because it's inside a scoped class so it won't affect anything global
+
+        select {
+            cursor: pointer;
+            min-width: 128px;
+            margin-right: 0.8rem;
+            padding: 0.4rem 0.4rem;
+
+            &:active,
+            &:focus {
+                outline: var(--accent);
+            }
+        }
+    }
+}

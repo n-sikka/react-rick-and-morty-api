@@ -1,0 +1,26 @@
+/*
+    NOTE: 
+    
+    1) the naming of this mixin is a personal subjective approach that I've successfuly used during my time writing sass
+    I'm using the acronym for "greater than equal to" as "g.t.e" 
+    and by using a human friendly prefix like "screen" it helps in readability while keep future refactor or optimizations in mind
+
+    eg. if tomorrow we add another mixin that handles styles for only less than equal to 1100px screen size (for whatever reasons designers deem neccessary)
+    we can add another file (or change the name of this file and add it here to account for the two of them) to "_screen-lte.scss"
+
+    2) This is too small a code to split up honestly, I'm just trying to showcase different approaches again. I would have put this in utils.scss easily and if not that,
+    directly in the index.scss
+
+    3) Usage of this I'd personally recommend is by using the "@use" of SCSS which really helps in refactoring and also allows us to highlight,
+    which external mixins/functions/maps etc in SASS the specific file is using. 
+    I've seen code where the mixins are directly added to the main index file and it is asserted that the rest of the files just trust the source. 
+    This approach rejects that and explicitly requires whatever external code is neccessary for it, so while refactoring errors that show up will force the devs to not forget about anything else
+*/
+
+// Anything above the provided breakpoint
+// @default 450px
+@mixin screen-gte($breakpoint: 450px) {
+    @media screen and (min-width: $breakpoint) {
+        @content;
+    }
+}
